@@ -14,24 +14,14 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
-   <script>
-    var app = angular.module("loanApp", ["ngRoute"]);
 
-    app.config(function ($routeProvider) {
-       $routeProvider.when("/", {
-       templateUrl: "./views/signup.html",
-       // controller: "signupController",
-     });
-   });
-
-
-   </script>
+   <script type="text/javascript" src="scripts/user_controller.js"></script>
 
   </head>
   <body>
       <div ng-view>
       </div>
-    
+   
     </div>
   </body>
 </html>

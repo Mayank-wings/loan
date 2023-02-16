@@ -1,9 +1,9 @@
-<div class="container col-4">
+<div class="container col-4" data-ng-controller="login_controller">
   <div class="text-center m">
     <h4>Welcome to Our LoanApp..!</h4>
   </div>
   <div class="card text-center mt-5 p-3">
-    <form>
+    <form name="form_constraints" data-ng-submit="submit_handler()">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email</label>
         <input
@@ -25,6 +25,9 @@
       </div>
 
       <button type="submit" class="btn btn-primary mb-3">Submit</button>
+      <button class="btn btn-primary mb-3 ms-1" type="reset">Reset</button>
+      <!-- <div>username :{{log_userEmail}}</div>
+      <div>pass :{{log_userPassword}}</div> -->
     </form>
   </div>
 </div>
