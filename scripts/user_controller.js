@@ -1,4 +1,4 @@
-var app = angular.module("loanApp", ["ngRoute"]);
+var app = angular.module("loanApp", ["ngRoute","ngCookies"]);
 
 app.config(function ($routeProvider) {
   $routeProvider
@@ -11,13 +11,16 @@ app.config(function ($routeProvider) {
     .when("/dashboard", {
       templateUrl: "./views/dashboard.html",
     })
+    .when("/user",{
+      templateUrl:"./views/user.html",
+    })
     .otherwise({
       redirectTo: "/login",
     });
 });
 
 // for the log in controller
-app.controller("login_controller", function ($scope, $http, $location) {
+app.controller("login_controller", function ($scope, $http, $location,$cookieStore) {
   $scope.loginSuccess = null;
   $scope.loginError = null;
   $scope.submit_handler = function () {
@@ -36,11 +39,19 @@ app.controller("login_controller", function ($scope, $http, $location) {
       function successCallback(response) {
         // this callback will be called asynchronously
         // when the response is available
-        console.log(response);
+        console.log(response.data);
         if (response.status === 200) {
+          // $cookieStore.put("email",response.data.email);
+          // $cookieStore.put("user_type",response.data.user_type);
           $scope.loginSuccess = true;
           $scope.loginError = false;
-          $location.path("/dashboard");
+
+          if (response.data.user_type == 'admin') {
+            $location.path("/dashboard");
+          } else {
+            $location.path("/user");
+          }
+          
           // $location.replace();
         } else {
         }
@@ -94,3 +105,13 @@ app.controller("reg_controller", function ($scope, $http) {
     $scope.log_userPassword = null;
   };
 });
+
+// for the user controller
+app.controller("user_controller",function ($scope,$http,$location) {
+   $scope.user_handler = function () {
+   var loanAmount = $scope.user_LoanAmount ;
+   var term = $scope.user_term;
+   console.log("loanAmount",loanAmount);
+   console.log("term",term);
+   }
+})

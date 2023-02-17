@@ -14,11 +14,11 @@ try {
 
     $sql->execute(array(':email' => $email, ':password' => $password));
     $count = $sql->rowCount();
-
-
+    $array = $sql->fetch();
+    echo json_encode($array);
     if ($count > 0) {
-        $_SESSION["username"] = "$email";
-        return $sql;
+        // $_SESSION["username"] = "$email";
+        return json_encode($array);
     } else {
         header('HTTP/1.0 403 UNAUTORIZED');
     }
