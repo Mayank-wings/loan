@@ -1,0 +1,41 @@
+<div class="container col-4" data-ng-controller="reg_controller">
+  <div class="text-center mt-2">
+    <h2>Welcome to Our LoanApp..!</h2>
+  </div>
+  <div class="card text-center mt-5 p-3 border border-0 shadow">
+    <h4><b>Register your self here..!</b></h4>
+    <form name="form_constraints" data-ng-submit="reg_handler()">
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          data-ng-model="reg_userEmail"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="exampleInputPassword1"
+          data-ng-model="reg_userPassword"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary mb-3">Submit</button>
+      <button
+        class="btn btn-primary mb-3 ms-1"
+        type="reset"
+        ng-click="resetHandler()"
+      >
+        Reset
+      </button>
+    </form>
+    <div class="text-center">
+      <a href="#!login">Log In</a>
+    </div>
+  </div>
+</div>

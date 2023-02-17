@@ -1,8 +1,19 @@
 <div class="container col-4" data-ng-controller="login_controller">
-  <div class="text-center mt-2">
-    <h4>Welcome to Our LoanApp..!</h4>
+  <!-- message for login -->
+  <div ng-if="loginSuccess" class="alert alert-primary mt-2" role="alert">
+    LogIn Successfull...!
   </div>
-  <div class="card text-center mt-5 p-3">
+
+  <!-- message for the login fail -->
+  <div ng-if="loginError" class="alert alert-danger mt-2" role="alert">
+    Please Enter Valid Input...!
+  </div>
+
+  <div class="text-center mt-2">
+    <h2>Welcome to Our LoanApp..!</h2>
+  </div>
+  <div class="card text-center mt-5 p-3 border border-0 shadow">
+    <h4><b>Log In here!</b></h4>
     <form name="form_constraints" data-ng-submit="submit_handler()">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email</label>
@@ -25,9 +36,19 @@
       </div>
 
       <button type="submit" class="btn btn-primary mb-3">Submit</button>
-      <button class="btn btn-primary mb-3 ms-1" type="reset">Reset</button>
+      <button
+        class="btn btn-primary mb-3 ms-1"
+        type="reset"
+        ng-click="resetHandler()"
+      >
+        Reset
+      </button>
       <!-- <div>username :{{log_userEmail}}</div>
       <div>pass :{{log_userPassword}}</div> -->
     </form>
+
+    <div class="text-center">
+      <a href="#!register"> Register Here </a>
+    </div>
   </div>
 </div>
