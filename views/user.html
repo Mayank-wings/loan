@@ -1,57 +1,76 @@
 <div class="container" data-ng-controller="user_controller">
-    <div class="row">
-  <div class=" mt-2">
-    <h2>Welcome to Our LoanApp..!</h2>
-    <h4>Enter The Amount to get Loan...!</h4>
-  </div>
-  <div class="card col-3 text-center mt-5 p-3 border border-0 shadow">
-    
-    <form name="form_constraints" data-ng-submit="user_handler()">
-      <h5>Enter Amount</h5>  
-      <div class="d-flex justify-content-between mt-4">
-        <label for="exampleInputAmount1" class="form-label"><h5>Amount</h5></label>
-        <input
-          type="number"
-          class="form-control"
-          id="exampleInputAmount1"
-          style="height: 30px; width: 130px;"
-          aria-describedby="emailHelp"
-          data-ng-model="user_LoanAmount"
-        />
-      </div>
-      <div class="d-flex justify-content-between ">
-        <label for="exampleInputPassword1" class="form-label"><h5>Term</h5></label>
-        <input
-          type="number"
-          class="form-control "
-          style="height: 30px;width: 130px;"
-          id="exampleInputPassword1"
-          data-ng-model="user_term"
-        />
-      </div>
+  <div class="row">
+    <div class="mt-2 fw-light">
+      <h2 class="text-uppercase">Welcome to Our LoanApp..!</h2>
+      <h4>Enter The Amount to get Loan...!</h4>
+    </div>
+    <div
+      class="card col-3 text-center mt-5 p-3 border border-0 shadow"
+      style="height: max-content"
+    >
+      <form name="form_constraints" data-ng-submit="user_handler()">
+        <h5>Enter Amount</h5>
+        <div class="d-flex justify-content-between mt-4">
+          <label for="exampleInputAmount1" class="form-label"
+            ><h5>Amount</h5></label
+          >
+          <input
+            type="number"
+            class="form-control"
+            id="exampleInputAmount1"
+            style="height: 30px; width: 130px"
+            aria-describedby="emailHelp"
+            data-ng-model="user_LoanAmount"
+          />
+        </div>
+        <div class="d-flex justify-content-between">
+          <label for="exampleInputPassword1" class="form-label"
+            ><h5>Term</h5></label
+          >
+          <input
+            type="number"
+            class="form-control"
+            style="height: 30px; width: 130px"
+            id="exampleInputPassword1"
+            data-ng-model="user_term"
+          />
+        </div>
 
-      <button type="submit" class="btn btn-primary mt-2 ">Submit</button>
-      <button class="btn btn-primary mt-2" type="reset">Reset</button>
-    </form>
+        <button type="submit" class="btn btn-dark mt-2">Submit</button>
+        <button
+          class="btn btn-dark mt-2 ms-1"
+          type="reset"
+          ng-click="loan_resetHandler()"
+        >
+          Reset
+        </button>
+      </form>
+    </div>
+    <div class="col-8 mt-5 gx-5">
+      <h5>Get your Repayment Schedule..!</h5>
+      <h6 class="fw-light text-uppercase">
+        your amount : {{ user_LoanAmount }}
+      </h6>
+      <h6 class="fw-light text-uppercase">your term : {{ user_term }}</h6>
+      <div ng-if="InProcess"><h5>Your Application is Under Review..!</h5></div>
+      <div ng-if="loanApproved">
+        <table class="table mt-3 border border-1">
+          <thead>
+            <tr>
+              <th scope="col">EMI</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="x in repaymentArray">
+              <th scope="row">{{x.emi}}</th>
+              <td>{{x.amount}}</td>
+              <td>{{x.status}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div class="col-8 mt-5 gx-5">
-    <h5>Get your Repayment Schedule..!</h5>
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">id</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Term</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>{{ user_LoanAmount }}</td>
-            <td>{{ user_term }}</td>
-          </tr>
-        </tbody>
-      </table>
-  </div>
-</div>
 </div>

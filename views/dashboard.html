@@ -1,21 +1,27 @@
-<div class="container col-8">
+<div class="container col-8" data-ng-controller="user_controller">
+  <h2 class="fw-light text-uppercase text-center">Admin Dashboard...!</h2>
   <div class="row mt-5">
     <div class="card shadow" style="height: 100%">
+      {{approvalData}}
       <table class="table">
         <thead>
           <tr>
             <th scope="col">id</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">email</th>
+            <th scope="col">user_type</th>
+            <th scope="col">amount</th>
+            <th scope="col">term</th>
+            <th scope="col">status</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr ng-repeat="x in approvalData">
             <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
+            <td>{{x.email}}</td>
+            <td>{{x.user_type}}</td>
+            <td>{{x.amount}}</td>
+            <td>{{x.term}}</td>
+            <td>{{x.status}}</td>
           </tr>
         </tbody>
       </table>
