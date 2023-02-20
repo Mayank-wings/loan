@@ -179,7 +179,7 @@ app.controller(
 );
 
 // for admin controller
-app.controller("user_controller", function ($scope, $http) {
+app.controller("admin_controller", function ($scope, $http) {
   $scope.approvalData;
   $http({
     url: "./tools/get_approval.php",

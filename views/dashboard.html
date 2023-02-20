@@ -1,8 +1,7 @@
-<div class="container col-8" data-ng-controller="user_controller">
-  <h2 class="fw-light text-uppercase text-center">Admin Dashboard...!</h2>
+<div class="container col-8" data-ng-controller="admin_controller">
+  <h2 class="fw-light text-uppercase text-center mt-3">Admin Dashboard...!</h2>
   <div class="row mt-5">
     <div class="card shadow" style="height: 100%">
-      {{approvalData}}
       <table class="table">
         <thead>
           <tr>
@@ -16,12 +15,21 @@
         </thead>
         <tbody>
           <tr ng-repeat="x in approvalData">
-            <th scope="row">1</th>
+            <th scope="row">{{$index}}</th>
             <td>{{x.email}}</td>
             <td>{{x.user_type}}</td>
             <td>{{x.amount}}</td>
             <td>{{x.term}}</td>
-            <td>{{x.status}}</td>
+            <!-- <td>{{x.status}}</td> -->
+            <td><div class="dropdown">
+              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                {{x.status}}    
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <li><button class="dropdown-item" type="button">pending</button></li>
+                <li><button class="dropdown-item" type="button">approved</button></li>
+              </ul>
+            </div></td>
           </tr>
         </tbody>
       </table>

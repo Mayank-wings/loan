@@ -14,7 +14,7 @@ try {
 
     $sql->execute(array(':email' => $email, ':password' => $password));
     $count = $sql->rowCount();
-    $array = $sql->fetch();
+    $array = $sql->fetch(PDO::FETCH_ASSOC);
     echo json_encode($array);
     if ($count > 0) {
         // $_SESSION["username"] = "$email";
