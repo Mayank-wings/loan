@@ -17,15 +17,15 @@ try {
     $sql->bindParam(':status', $loanStatus);
     $sql->execute();
 
-    print_r($request->user);
-    print_r(" ");
-    print_r($request->user_type);
-    print_r(" ");
-    print_r($request->loanAmount);
-    print_r(" ");
-    print_r($request->loanTerm);
-    print_r(" ");
-    print_r($loanStatus);
+    // print_r($request->user);
+    // print_r(" ");
+    // print_r($request->user_type);
+    // print_r(" ");
+    // print_r($request->loanAmount);
+    // print_r(" ");
+    // print_r($request->loanTerm);
+    // print_r(" ");
+    // print_r($loanStatus);
 
 } catch (\Throwable $th) {
     header('HTTP/1.0 403');

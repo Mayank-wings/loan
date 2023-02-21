@@ -112,15 +112,90 @@ app.controller("reg_controller", function ($scope, $http) {
 // for the user controller
 app.controller(
   "user_controller",
-  function ($scope, $http, $location, $cookieStore) {
+  function ($scope, $http, $location, $cookieStore, $rootScope) {
+    $http({
+      url: "./tools/get_approval.php",
+      method: "GET",
+    }).then(
+      function successCallback(response) {
+        console.log(response.data);
+        $scope.userData = response.data;
+        var loggedUser = $cookieStore.get("email");
+        var userData = $scope.userData.filter(
+          (user) => user.email == loggedUser
+        );
+        console.log(userData);
+
+        if (userData[0].status == "approved") {
+          console.log("loan is approved");
+          $scope.loanApproved = true;
+          $rootScope.user_LoanAmount = parseInt(userData[0].amount);
+          $rootScope.user_term = parseInt(userData[0].term);
+
+          $scope.repaymentArray = [];
+
+          var loanAmount = $rootScope.user_LoanAmount;
+          var term = $rootScope.user_term;
+          // $scope.loanApproved = true;
+
+          var loanRepaymentSchedule = loanAmount / term;
+          var roundOffValue = Math.floor(loanRepaymentSchedule);
+          var getTotalVariation = Math.round(
+            (loanRepaymentSchedule - roundOffValue) * term
+          );
+
+          var repayment = {
+            emi: "",
+            amount: "",
+            status: "pending",
+          };
+
+          for (let i = 0; i < term; i++) {
+            // const element = array[index];
+            if (i == term - 1) {
+              $scope.repaymentArray.push({
+                ...repayment,
+                emi: i + 1,
+                amount: roundOffValue + getTotalVariation,
+              });
+            } else {
+              $scope.repaymentArray.push({
+                ...repayment,
+                emi: i + 1,
+                amount: roundOffValue,
+              });
+            }
+          }
+        } else if (userData[0].status == "pending") {
+          $scope.loanPending = true;
+          $rootScope.user_LoanAmount = parseInt(userData[0].amount);
+          $rootScope.user_term = parseInt(userData[0].term);
+
+          console.log("loan is still pending!");
+        } else if (userData[0].status == "rejected") {
+          $scope.loanRejected = true;
+          $rootScope.user_LoanAmount = parseInt(userData[0].amount);
+          $rootScope.user_term = parseInt(userData[0].term);
+          console.log("loan is rejected!");
+        } else {
+          console.log("apply for loan..!");
+        }
+      },
+      function errorCallback(response) {
+        console.log(response);
+      }
+    );
+
     $scope.InProcess = false;
     $scope.loanApproved = false;
     $scope.user_handler = function () {
-      $scope.repaymentArray = [];
       var user = $cookieStore.get("email");
       var user_type = $cookieStore.get("user_type");
-      var loanAmount = $scope.user_LoanAmount;
-      var term = $scope.user_term;
+
+      $scope.repaymentArray = [];
+
+      var loanAmount = $rootScope.user_LoanAmount;
+      var term = $rootScope.user_term;
       // $scope.loanApproved = true;
 
       var loanRepaymentSchedule = loanAmount / term;
@@ -175,12 +250,48 @@ app.controller(
       $scope.user_LoanAmount = "";
       $scope.user_term = "";
     };
+
+    $scope.repayment_handler = function (emi) {
+      console.log(emi);
+      console.log($scope.repaymentArray);
+      console.log($scope.repaymentArray[emi - 1].emi);
+
+      $scope.repaymentArray[emi - 1].status = "paid";
+    };
   }
 );
 
 // for admin controller
 app.controller("admin_controller", function ($scope, $http) {
   $scope.approvalData;
+  $scope.selected = {};
+  console.log("selected", $scope.selected);
+
+  $scope.data = {
+    availableOptions: [
+      { id: "1", status: "pending" },
+      { id: "2", status: "approved" },
+      { id: "3", status: "rejected" },
+    ],
+  };
+
+  $scope.admin_handler = function () {
+    console.log("selected", $scope.selected);
+
+    $http({
+      url: "./tools/update_approval.php",
+      method: "PUT",
+      data: $scope.selected,
+    }).then(
+      function successCallback(response) {
+        console.log(response);
+      },
+      function errorCallback(response) {
+        console.log(response);
+      }
+    );
+  };
+
   $http({
     url: "./tools/get_approval.php",
     method: "GET",
