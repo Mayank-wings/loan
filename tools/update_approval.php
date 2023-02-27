@@ -7,10 +7,10 @@ try {
   $data = $request;
   // print_r($data);
 
-  foreach ($data as $email => $status) {
-    $sql = $conn->prepare("UPDATE loan SET status=:status WHERE email=:email");
+  foreach ($data as $id => $status) {
+    $sql = $conn->prepare("UPDATE loan SET status=:status WHERE id=:id");
     $sql->bindParam(':status', $status);
-    $sql->bindParam(':email', $email);
+    $sql->bindParam(':id', $id);
     $sql->execute();
   }
 

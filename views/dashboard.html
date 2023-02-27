@@ -16,14 +16,14 @@
           </thead>
           <tbody>
             <tr ng-repeat="x in approvalData">
-              <th scope="row">{{$index + 1}}</th>
+              <td>{{x.id}}</td>
               <td>{{x.email}}</td>
               <td>{{x.user_type}}</td>
               <td>{{x.amount}}</td>
               <td>{{x.term}}</td>
               <td>
-                <select ng-model="selected[x.email]">
-                  <option value="">Select an option</option>
+                <select ng-model="selected[x.id]">
+                  <option value="">{{x.status}}</option>
                   <option
                     ng-repeat="status in data.availableOptions"
                     ng-select="x.status"

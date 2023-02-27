@@ -8,13 +8,15 @@ try {
     $loanAmount = $request->loanAmount;
     $term = $request->loanTerm;
     $loanStatus = "pending";
+    $id = uniqid();
 
-    $sql = $conn->prepare("INSERT INTO loan(email,user_type,amount,term,status) VALUES (:email,:user_type,:amount,:term,:status)");
+    $sql = $conn->prepare("INSERT INTO loan(email,user_type,amount,term,status,id) VALUES (:email,:user_type,:amount,:term,:status,:id)");
     $sql->bindParam(':email', $user);
     $sql->bindParam(':user_type', $user_type);
     $sql->bindParam(':amount', $loanAmount);
     $sql->bindParam(':term', $term);
     $sql->bindParam(':status', $loanStatus);
+    $sql->bindParam(':id', $id);
     $sql->execute();
 
     // print_r($request->user);
