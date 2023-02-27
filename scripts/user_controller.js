@@ -129,15 +129,17 @@ app.controller(
         for (let i = 0; i < userData.length; i++) {
           if (userData[i].status == "approved") {
             console.log("loan is approved");
+            $scope.approvedloanNumber = userData[i].id;
             $scope.loanApproved = true;
-            $rootScope.user_LoanAmount = parseInt(userData[0].amount);
-            $rootScope.user_term = parseInt(userData[0].term);
+            $scope.user_LoanAmount = parseInt(userData[0].amount);
+            $scope.user_term = parseInt(userData[0].term);
 
             $scope.repaymentArray = [];
 
-            var loanAmount = $rootScope.user_LoanAmount;
-            var term = $rootScope.user_term;
+            var loanAmount = $scope.user_LoanAmount;
+            var term = $scope.user_term;
             // $scope.loanApproved = true;
+           console.log(loanAmount);
 
             var loanRepaymentSchedule = loanAmount / term;
             var roundOffValue = Math.floor(loanRepaymentSchedule);
@@ -168,13 +170,16 @@ app.controller(
               }
             }
           } else if (userData[i].status == "pending") {
+            
             $scope.loanPending = true;
+            $scope.pendingLoanNumber = userData[i].id;
             $rootScope.user_LoanAmount = parseInt(userData[0].amount);
             $rootScope.user_term = parseInt(userData[0].term);
 
             console.log("loan is still pending!");
           } else if (userData[i].status == "rejected") {
             $scope.loanRejected = true;
+            $scope.rejectedloanNumber = userData[i].id;
             $rootScope.user_LoanAmount = parseInt(userData[0].amount);
             $rootScope.user_term = parseInt(userData[0].term);
             console.log("loan is rejected!");

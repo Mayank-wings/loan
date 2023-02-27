@@ -58,10 +58,12 @@
       </div>
       <div ng-if="InProcess"><h5>Your Application is Under Review..!</h5></div>
       <div ng-if="loanApproved">
+        <h2 class="fw-light">Loan Number {{ approvedloanNumber }} is Approved...! </h2>
         <table class="table mt-3 border border-1">
           <thead>
             <tr>
               <th scope="col">EMI</th>
+              <th scope="col">Date</th>
               <th scope="col">Amount</th>
               <th scope="col">Status</th>
               <th scope="col">Repay</th>
@@ -87,13 +89,13 @@
       </div>
     </div>
 
-    <div ng-if="loanRejected" class="ms-2 mt-2">
-      <h2 class="fw-light">Your Loan is Rejected...!</h2>
+    <div ng-if="loanRejected" class="ms-2 mt-2 text-center">
+      <h2 class="fw-light">Your Loan {{ rejectedloanNumber }} is Rejected...!</h2>
       <h2 class="fw-light">Better Luck Next Time...!</h2>
     </div>
 
     <div ng-if="loanPending">
-      <h2 class="fw-light mt-4 text-center">Your Loan is Pending...!</h2>
+      <h2 class="fw-light mt-4 text-center">Your Loan {{pendingLoanNumber}} is Pending...!</h2>
     </div>
   </div>
 </div>
