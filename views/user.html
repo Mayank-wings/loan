@@ -58,8 +58,14 @@
       </div>
       <div ng-if="InProcess"><h5>Your Application is Under Review..!</h5></div>
       <div ng-if="loanApproved">
-        <h2 class="fw-light">Loan Number {{ approvedloanNumber }} is Approved...! </h2>
-        <table class="table mt-3 border border-1">
+        <h2 class="fw-light">
+          Loan Number {{ approvedloanNumber }} is Approved...!
+        </h2>
+        <h2 class="fw-light" ng-if="loanpaid">
+          Loan Number {{ approvedloanNumber }} is paid...!
+        </h2>
+
+        <table class="table mt-3 border border-1" ng-if="!loanpaid">
           <thead>
             <tr>
               <th scope="col">EMI</th>
@@ -70,18 +76,31 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="x in repaymentArray">
+            <tr
+              ng-repeat="x in repaymentArray"
+              ng-init="myDate=(firstDate.setDate(firstDate.getDate() + 7)|date)"
+            >
               <th scope="row">{{x.emi}}</th>
+              <td ng-bind="myDate"></td>
               <td>{{x.amount}}</td>
               <td>{{x.status}}</td>
               <td>
-                <button
-                  type="button"
-                  class="btn btn-secondary btn-sm"
-                  ng-click="repayment_handler(x.emi)"
-                >
-                  Repayment
-                </button>
+                <div class="d-flex">
+                  <input
+                    type="number"
+                    value="{{x.amount}}"
+                    ngMin="{{x.amount}}"
+                    ng-init="amountOfRepayment=x.amount"
+                    ng-model="amountOfRepayment"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-secondary btn-sm ms-2"
+                    ng-click="repayment_handler(x.emi,amountOfRepayment)"
+                  >
+                    Repayment
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -90,12 +109,16 @@
     </div>
 
     <div ng-if="loanRejected" class="ms-2 mt-2 text-center">
-      <h2 class="fw-light">Your Loan {{ rejectedloanNumber }} is Rejected...!</h2>
+      <h2 class="fw-light">
+        Your Loan {{ rejectedloanNumber }} is Rejected...!
+      </h2>
       <h2 class="fw-light">Better Luck Next Time...!</h2>
     </div>
 
     <div ng-if="loanPending">
-      <h2 class="fw-light mt-4 text-center">Your Loan {{pendingLoanNumber}} is Pending...!</h2>
+      <h2 class="fw-light mt-4 text-center">
+        Your Loan {{pendingLoanNumber}} is Pending...!
+      </h2>
     </div>
   </div>
 </div>

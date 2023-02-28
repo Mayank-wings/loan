@@ -118,13 +118,15 @@ app.controller(
       method: "GET",
     }).then(
       function successCallback(response) {
-        console.log(response.data);
+        // console.log(response.data);
         $scope.userData = response.data;
+        $scope.firstDate = new Date();
+
         var loggedUser = $cookieStore.get("email");
         var userData = $scope.userData.filter(
           (user) => user.email == loggedUser
         );
-        console.log(userData);
+        // console.log(userData);
 
         for (let i = 0; i < userData.length; i++) {
           if (userData[i].status == "approved") {
@@ -139,7 +141,7 @@ app.controller(
             var loanAmount = $scope.user_LoanAmount;
             var term = $scope.user_term;
             // $scope.loanApproved = true;
-           console.log(loanAmount);
+            console.log(loanAmount);
 
             var loanRepaymentSchedule = loanAmount / term;
             var roundOffValue = Math.floor(loanRepaymentSchedule);
@@ -170,7 +172,6 @@ app.controller(
               }
             }
           } else if (userData[i].status == "pending") {
-            
             $scope.loanPending = true;
             $scope.pendingLoanNumber = userData[i].id;
             $rootScope.user_LoanAmount = parseInt(userData[0].amount);
@@ -201,13 +202,13 @@ app.controller(
 
       $scope.repaymentArray = [];
 
-      var loanAmount = $scope.user_LoanAmount;
-      var term = $scope.user_term;
+      $scope.loanAmount = $scope.user_LoanAmount;
+      $scope.term = $scope.user_term;
       // $scope.loanApproved = true;
 
-      var loanRepaymentSchedule = loanAmount / term;
-      var roundOffValue = Math.floor(loanRepaymentSchedule);
-      var getTotalVariation = Math.round(
+      $scope.loanRepaymentSchedule = loanAmount / term;
+      $scope.roundOffValue = Math.floor(loanRepaymentSchedule);
+      $scope.getTotalVariation = Math.round(
         (loanRepaymentSchedule - roundOffValue) * term
       );
 
@@ -223,13 +224,13 @@ app.controller(
           $scope.repaymentArray.push({
             ...repayment,
             emi: i + 1,
-            amount: roundOffValue + getTotalVariation,
+            amount: $scope.roundOffValue + $scope.getTotalVariation,
           });
         } else {
           $scope.repaymentArray.push({
             ...repayment,
             emi: i + 1,
-            amount: roundOffValue,
+            amount: $scope.roundOffValue,
           });
         }
       }
@@ -258,12 +259,67 @@ app.controller(
       $scope.user_term = "";
     };
 
-    $scope.repayment_handler = function (emi) {
+    $scope.repayment_handler = function (emi, amountOfRepayment) {
+      console.log(amountOfRepayment);
       console.log(emi);
-      console.log($scope.repaymentArray);
-      console.log($scope.repaymentArray[emi - 1].emi);
+      console.log($scope.user_LoanAmount);
+      console.log($scope.user_term);
 
-      $scope.repaymentArray[emi - 1].status = "paid";
+      $scope.newRepaymentArray = [];
+
+      $scope.repaymentArray = $scope.repaymentArray.filter(
+        (element) => element.emi != emi
+      );
+
+      $scope.user_LoanAmount = $scope.user_LoanAmount - amountOfRepayment;
+      $scope.user_term = $scope.user_term - 1;
+      console.log("after repayment amount", $scope.user_LoanAmount);
+      console.log("aftre repayment term", $scope.user_term);
+
+      $scope.loanRepaymentSchedule = $scope.user_LoanAmount / $scope.user_term;
+      $scope.roundOffValue = Math.floor($scope.loanRepaymentSchedule);
+      $scope.getTotalVariation = Math.round(
+        ($scope.loanRepaymentSchedule - $scope.roundOffValue) * $scope.user_term
+      );
+      console.log("loanRepaymentSchedule", $scope.loanRepaymentSchedule);
+      console.log("roundOffValue", $scope.roundOffValue);
+      console.log("getTotalVariation", $scope.getTotalVariation);
+
+      var repayment = {
+        emi: "",
+        amount: "",
+        status: "pending",
+      };
+
+      for (let i = 0; i < $scope.user_term; i++) {
+        // const element = array[index];
+        if (i == $scope.user_term - 1) {
+          $scope.newRepaymentArray.push({
+            ...repayment,
+            emi: i + 1,
+            amount: $scope.roundOffValue + $scope.getTotalVariation,
+          });
+        } else {
+          $scope.newRepaymentArray.push({
+            ...repayment,
+            emi: i + 1,
+            amount: $scope.roundOffValue,
+          });
+        }
+      }
+      $scope.repaymentArray = $scope.newRepaymentArray;
+      console.log($scope.newRepaymentArray);
+
+      if ($scope.user_LoanAmount == 0) {
+        $scope.loanpaid = true;
+        $scope.user_term = 0;
+        // $scope.repaymentArray = "<h2>Your Loan is Paid..!</h2>";
+      }
+
+      // console.log(array);
+      // console.log($scope.repaymentArray[emi - 1].emi);
+
+      // $scope.repaymentArray[emi].status = "paid";
     };
   }
 );
